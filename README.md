@@ -2,7 +2,6 @@
 This is my repo for STATS 220. 
 
 A little about me:
-
-- I am undertaking a degree in ....
-- I am taking STATS 220 because ....
-- I am interested in learning about ....
+- I am undertaking a degree in Statistics.
+- I am taking STATS 220 because I want to build strong practical data skills that go beyond theory. STATS 220 focuses on data wrangling, visualization, and communication of data which are essential skills in today’s data-driven world.
+- I am interested in learning about the practical things of Staistics.
