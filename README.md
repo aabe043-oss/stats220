@@ -6,6 +6,6 @@ A little about me:
 - I am taking STATS 220 because I want to build strong practical data skills that go beyond theory. STATS 220 focuses on data wrangling, visualization, and communication of data using the R programming language which are essential skills required for today’s data-driven world.
 - I am interested in learning about the applied side of Staistics.
 
-A meme that captures how I currently feel about my university studies 
+A meme that captures how I currently feel about my university studies is 
 
-is ![](https://media.tenor.com/V71SmWqyYHkAAAAM/kermit-freaking.gif)
+![](https://media.tenor.com/V71SmWqyYHkAAAAM/kermit-freaking.gif)
