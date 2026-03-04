@@ -7,4 +7,5 @@ A little about me:
 - I am interested in learning about the applied side of Staistics.
 
 A meme that captures how I currently feel about my university studies 
+
 is ![](https://media.tenor.com/V71SmWqyYHkAAAAM/kermit-freaking.gif)
