@@ -12,6 +12,6 @@ This is my repo for STATS 220.
 -	Improving data literacy which is believed to be highly valuable for future employment.
 
 
-A meme that captures how I currently feel about my university studies is 
+A meme that captures how I currently feel about my university studies is
 
 ![](https://media.tenor.com/V71SmWqyYHkAAAAM/kermit-freaking.gif)
