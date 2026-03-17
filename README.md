@@ -13,10 +13,10 @@ This is my repo for STATS 220.
 
 
 # Website Links:
-. https://www.auckland.ac.nz/en/study/study-options/find-a-study-option/data-science.html
-. https://ggplot2.tidyverse.org/
-. https://www.stats.govt.nz/
-. https://www.auckland.ac.nz/en/science/about-the-faculty/department-of-statistics.html
+- https://www.auckland.ac.nz/en/study/study-options/find-a-study-option/data-science.html
+- https://ggplot2.tidyverse.org/
+- https://www.stats.govt.nz/
+- https://www.auckland.ac.nz/en/science/about-the-faculty/department-of-statistics.html
 
 
 A meme that captures how I currently feel about my university studies is
