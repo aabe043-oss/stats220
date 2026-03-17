@@ -20,5 +20,6 @@ This is my repo for STATS 220.
 
 
 A meme that captures how I currently feel about my university studies is
+![](https://media1.tenor.com/m/0T0Yx_nfzE8AAAAd/chris-farley.gif)
 
 ![](https://media.tenor.com/V71SmWqyYHkAAAAM/kermit-freaking.gif)
