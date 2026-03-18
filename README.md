@@ -2,8 +2,8 @@
 This is my repo for STATS 220. 
 
 # A little about me:
-- I am undertaking a degree in Statistics.
-- I am taking STATS 220 because I want to **build strong practical data skills** that go beyond theory to develop data science capabilities. As STATS 220 focuses on combining data technologies to solve problems, I believe it will make me confident in creating data science projects.
+- I am undertaking a degree in **Statistics**.
+- I am taking STATS 220 because I want to *build strong practical data skills* that go beyond theory to develop data science capabilities. As STATS 220 focuses on combining data technologies to solve problems, I believe it will make me confident in creating data science projects.
   
 # I am interested in learning about:
 1. Real world skills in data cleaning, creating visualisations etc that are highly useful to many careers.
