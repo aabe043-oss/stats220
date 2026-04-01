@@ -61,7 +61,7 @@ min(latest_data_renamed$minutes_late)
 # The maximum waiting time for Public Transport
 max(latest_data_renamed$waiting_time)
 
-# The average waiting_time for Public Transport
+# The average waiting time for Public Transport
 mean(latest_data_renamed$waiting_time)
 
 # Bar plots
