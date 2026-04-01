@@ -16,15 +16,14 @@ knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
 body {
   font-family: "Exo 2", sans-serif;
   font-weight: 400;
-  background-color: #2E3FA3;
-  color: #e0e0e0;
+  color: #0d0d1a;
   line-height: 1.8;
 }
 
 /* Main title */
 h1 {
   font-family: "Audiowide", sans-serif;
-  color: #00f5ff;
+  color: #0d0d1a;
   letter-spacing: 2px;
   text-transform: uppercase;
 }
@@ -35,12 +34,15 @@ h1 {
 ## Analysis of Public Transport Observations
 
 ```{r}
+# Loading the Library
 
 library(tidyverse)
 
 logged_data <- "https://docs.google.com/spreadsheets/d/e/2PACX-1vTGzvxSKzI0bMIpnofOget2sOOiLVsmXXl5lZgbCBhONKjjPNXnhaq6biI7dJchORSju2JPfl1vzklB/pub?output=csv"
 
 latest_data <- read_csv(logged_data)
+
+# Renaming the variables in the spreadsheet
 
 latest_data_renamed <- latest_data %>%
   rename(
@@ -53,15 +55,16 @@ latest_data_renamed <- latest_data %>%
     waiting_time = 8
   )
 
-# The minimum minutes_late
+# The minimum minutes_late for Public Transport
 min(latest_data_renamed$minutes_late)
 
-# The maximum waiting time
+# The maximum waiting time for Public Transport
 max(latest_data_renamed$waiting_time)
 
 # The average waiting_time for Public Transport
-
 mean(latest_data_renamed$waiting_time)
+
+# Bar plots
 
 ggplot(latest_data_renamed, aes(x = public_transport, fill = public_transport)) +
   geom_bar() +
@@ -94,6 +97,11 @@ ggplot(latest_data_renamed, aes(x = crowd_level, fill = crowd_level)) +
     fill = "Crowding"
   ) +
   theme_minimal()
+
+  
+```
+
+
 
   
 ```
