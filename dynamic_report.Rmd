@@ -9,6 +9,26 @@ knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
 ```
 
 ```{css}
+@import url('https://fonts.googleapis.com/css2?family=Audiowide');
+@import url('https://fonts.googleapis.com/css2?family=Exo+2');
+
+/* Body */
+body {
+  font-family: "Exo 2", sans-serif;
+  font-weight: 400;
+  background-color: #0d0d1a;
+  color: #e0e0e0;
+  line-height: 1.8;
+}
+
+/* Main title */
+h1 {
+  font-family: "Audiowide", sans-serif;
+  color: #00f5ff;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
 
 ```
 
@@ -77,6 +97,11 @@ ggplot(latest_data_renamed, aes(x = crowd_level, fill = crowd_level)) +
     fill = "Crowding"
   ) +
   theme_minimal()
+
+  
+```
+
+
 
   
 ```
