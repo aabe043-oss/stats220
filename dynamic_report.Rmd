@@ -1,0 +1,84 @@
+---
+title: My dynamic report
+output: html_fragment
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
+
+```
+
+```{css}
+
+```
+
+## Analysis of Public Transport Observations
+
+You need to change the contents of this Rmd! Replace the R code and markdown give below in this template document.
+
+
+```{r}
+
+library(tidyverse)
+
+logged_data <- "https://docs.google.com/spreadsheets/d/e/2PACX-1vTGzvxSKzI0bMIpnofOget2sOOiLVsmXXl5lZgbCBhONKjjPNXnhaq6biI7dJchORSju2JPfl1vzklB/pub?output=csv"
+
+latest_data <- read_csv(logged_data)
+
+latest_data_renamed <- latest_data %>%
+  rename(
+    public_transport = 2,
+    day_type = 3,
+    day_time = 4,
+    crowd_level = 5,
+    minutes_late = 6,
+    additional_comments = 7,
+    waiting_time = 8
+  )
+
+# The minimum number of minutes_late
+min(latest_data_renamed$minutes_late)
+
+# The maximum number of waiting time
+max(latest_data_renamed$waiting_time)
+
+# The average waiting_time for Public Transport
+
+mean(latest_data_renamed$waiting_time)
+
+ggplot(latest_data_renamed, aes(x = public_transport, fill = public_transport)) +
+  geom_bar() +
+  scale_fill_manual(values = c(
+    "Bus" = "red",
+    "Train" = "blue",
+    "Ferry" = "yellow",
+    "Taxi" = "green"
+  )) +
+  labs(
+    title = "Transport Type Distribution",
+    x = "Transport Type",
+    y = "Count"
+  ) +
+  theme_minimal()
+
+
+ggplot(latest_data_renamed, aes(x = crowd_level, fill = crowd_level)) +
+  geom_bar() +
+  scale_fill_manual(values = c(
+    "Empty" = "lavender",
+    "Moderate" = "plum",
+    "Crowded" = "orchid",
+    "Very Crowded" = "purple4"
+  )) +
+  labs(
+    title = "Crowd Levels on Public Transport",
+    x = "Crowd Level",
+    y = "Count",
+    fill = "Crowding"
+  ) +
+  theme_minimal()
+
+  
+```
+
+
