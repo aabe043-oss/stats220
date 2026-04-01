@@ -16,7 +16,7 @@ knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
 body {
   font-family: "Exo 2", sans-serif;
   font-weight: 400;
-  background-color: #0d0d1a;
+  background-color: #2E3FA3;
   color: #e0e0e0;
   line-height: 1.8;
 }
@@ -33,9 +33,6 @@ h1 {
 ```
 
 ## Analysis of Public Transport Observations
-
-You need to change the contents of this Rmd! Replace the R code and markdown give below in this template document.
-
 
 ```{r}
 
@@ -56,10 +53,10 @@ latest_data_renamed <- latest_data %>%
     waiting_time = 8
   )
 
-# The minimum number of minutes_late
+# The minimum minutes_late
 min(latest_data_renamed$minutes_late)
 
-# The maximum number of waiting time
+# The maximum waiting time
 max(latest_data_renamed$waiting_time)
 
 # The average waiting_time for Public Transport
@@ -97,11 +94,6 @@ ggplot(latest_data_renamed, aes(x = crowd_level, fill = crowd_level)) +
     fill = "Crowding"
   ) +
   theme_minimal()
-
-  
-```
-
-
 
   
 ```
