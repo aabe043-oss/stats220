@@ -55,7 +55,7 @@ latest_data_renamed <- latest_data %>%
     waiting_time = 8
   )
 
-# The minimum minutes_late for Public Transport
+# The minimum minutes late for Public Transport
 min(latest_data_renamed$minutes_late)
 
 # The maximum waiting time for Public Transport
