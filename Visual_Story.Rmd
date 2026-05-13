@@ -129,6 +129,7 @@ ggplot(renamed_data,
 ```
 
 
+
 My barplot shows that crowding is usually moderate at all times of day. This means that most of the time the journeys are not completely empty and not really crowded either. The crowding is more of a problem during peak periods in the evening. That is when the crowded conditions happen often. On the hand when it is not peak time the crowding is a bit less and the travel is more comfortable. My barplot clearly shows that crowding is moderate most of the time and the crowding is more of an issue during peak periods, in the evening when crowding is more common.
 
 
@@ -184,3 +185,9 @@ ggsave("plot_scatter.png", plot = plot_scatter, width = 8, height = 5)
 ```
 
 There is a strong link between how long you wait and how delayed the service is. This means that when you wait for a time the service is usually delayed for a long time too. It is not that simple because different types of transport have different things that affect how reliable they are. For example trains are usually the ones that are really delayed which is something that Auckland Transport has to deal with. On the hand ferries are usually, on time which shows that different types of transport are not equally reliable. Waiting time and delays are. This is especially true when you look at waiting time and delays together.
+
+
+
+## Conclusion
+
+The public transport type distribution shows what people use the most. This shows that people in Auckland really rely on public transport services. I checked how busy it gets at times of the day. So it gets really crowded during rush hour. This means that the bus or train is not as comfortable or reliable, during rush hour. I also saw that when people have to wait for a time they are more likely to be late. So my visualisations of Auckland's transport show that peak-time congestion and waiting times are big problems.These problems affect how reliable the public transport is. This can make the experience of using public transport in Auckland not very good, for people who use it. Auckland's public transport reliability is what is affected by these problems.
