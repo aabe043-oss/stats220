@@ -37,7 +37,7 @@ $(function() {
 
 ```{css, echo=FALSE}
 body {
-  background-color: #ffffff;
+  background-color: #ffeda0;
   color: #222222;
 }
 
@@ -76,55 +76,122 @@ renamed_data <- logged_data %>%
     
   )
 
-# Visualization 1 - Transport Type Distribution
 
-ggplot(renamed_data, aes(x = transport_type, fill = transport_type)) +
-  geom_bar() +
+# Create summarised dataframe
+transport_summary <- renamed_data %>%
+  group_by(transport_type) %>%
+  summarise(
+    total_journeys = n()
+  )
+
+# Visualization 1 - Transport Type Distribution
+plot_transport <- ggplot(
+  transport_summary,
+  aes(x = transport_type,
+      y = total_journeys,
+      fill = transport_type)
+) +
+  
+  geom_col() +
+  
   scale_fill_manual(values = c(
-    "Bus" = "red",
+    "Bus" = "#f03b20",
     "Train" = "blue",
-    "Ferry" = "yellow",
+    "Ferry" = "#ffeda0",
     "Taxi" = "green"
   )) +
+  
   labs(
     title = "Transport Type Distribution",
     x = "Transport Type",
     y = "Count"
   ) +
+  
   theme_minimal()
+
+plot_transport
+
+ggsave(
+  "plot_transport.png",
+  plot = plot_transport,
+  width = 8,
+  height = 5
+)
 
 ```
 
-The bar graph shows most people like to use transport.Most people prefer buses and trains over driving their cars. This is clear, from the graph which shows a number of people choosing public transport. Bus and Train are the popular choices. They make up most of the data. Are almost at the top of the graph. The Bus is used the with 20 people using it. The Train is second with 19 people using it. Bus and Train are more popular than the other options. This means people rely a lot on buses and trains. The Ferry and Taxi are not used much with 3 and 1 people using them. This shows that they are not as popular as buses and trains. They are alternatives, for some people.
+The bar graph shows most people like to use transport.Most people prefer buses and trains over driving their cars. This is clear, from the graph which shows a number of people choosing public transport. Bus and Train are the popular choices. They make up most of the data. Are almost at the top of the graph. The Bus is first with more than 20 people using it. The Train is second with 18 people using it. Bus and Train are more popular than the other options. This means people rely a lot on buses and trains. The Ferry and Taxi are not used much with 3 and 1 people using them. This shows that they are not as popular as buses and trains. They are alternatives, for some people.
 
 ## Plot 2 - Bar plot showing crowd levels at different times of day
 
 ```{r}
 
-colours <- c(
-  "#1b3a57",
-  "#7eb8f7",
-  "#a9d6e5",
-  "#ff7f50",
-  "#6a994e",
-  "#cdb4db"
+# Convert timestamp column into date-time format
+renamed_data <- renamed_data %>%
+  mutate(
+    timestamp = dmy_hms(Timestamp)
+  )
+
+# Extract hour from timestamp
+renamed_data <- renamed_data %>%
+  mutate(
+    hour = hour(timestamp)
+  )
+
+# Create time of day categories from timestamp
+renamed_data <- renamed_data %>%
+  mutate(
+    time_of_day = case_when(
+      hour >= 5  & hour < 12 ~ "Morning",
+      hour >= 12 & hour < 17 ~ "Afternoon",
+      hour >= 17 & hour < 21 ~ "Evening",
+      TRUE ~ "Night"
+    )
+  )
+
+# STRINGR FUNCTION (cleaning labels for consistency)
+renamed_data <- renamed_data %>%
+  mutate(
+    time_of_day = str_to_title(time_of_day)
+  )
+
+# Custom colour palette
+my_colours <- c(
+  "#f03b20",
+  "blue",
+  "#ffeda0",
+  "green"
 )
 
-my_theme <- theme_minimal()
-# Visualization 3 - Crowd Levels at different times of day
-ggplot(renamed_data,
-       aes(x = time_of_day,
-           fill = crowd_level)) +
+# Visualization - Crowd Levels at different times of day
+plot_crowd <- ggplot(
+  renamed_data,
+  aes(x = time_of_day, fill = crowd_level)
+) +
   
   geom_bar(position = "dodge") +
   
   labs(
     title = "Crowding Levels at Different Times of Day",
     x = "Time of Day",
-    y = "Number of Journeys"
+    y = "Number of Journeys",
+    caption = "Source: Public Transport Observation Survey"
   ) +
   
+  scale_fill_manual(values = my_colours) +
+  
   theme_minimal()
+
+# Display plot
+plot_crowd
+
+# Save plot
+ggsave(
+  "plot_crowd.png",
+  plot = plot_crowd,
+  width = 8,
+  height = 5
+)
 
 ```
 
@@ -138,33 +205,53 @@ My barplot shows that crowding is usually moderate at all times of day. This mea
 ## Plot 3 - Scatter Plot comparing waiting times with delays
 
 ```{r}
+# Custom colours
+my_colours2 <- c(
+  "#f03b20",
+  "blue",
+  "#ffeda0",
+  "green"
+)
+
 plot_scatter <- renamed_data %>%
   ggplot(aes(x = waiting_time, y = minutes_late)) +
   
   # Points
+    scale_colour_manual(values = c(
+    "Bus"   = my_colours2[1],
+    "Train" = my_colours2[2],
+    "Ferry" = my_colours2[3],
+    "Taxi"  = my_colours2[4]
+  )) +
   geom_point(aes(colour = transport_type),
-             size = 3, alpha = 0.7) +
-  
+             size = 3,
+             alpha = 0.7) +
+
   # Regression line
-  geom_smooth(method = "lm",
-              colour = colours[1],
-              fill = colours[2]) +
+  geom_smooth(
+    method = "lm",
+    colour = my_colours[1],
+    fill = my_colours[2]
+  ) +
   
   # Correlation annotation
-  annotate("text",
-           x = max(renamed_data$waiting_time, na.rm = TRUE) * 0.7,
-           y = max(renamed_data$minutes_late, na.rm = TRUE) * 0.9,
-           label = paste0("r = ",
-                          round(cor(renamed_data$waiting_time,
-                                    renamed_data$minutes_late,
-                                    use = "complete.obs"), 2))) +
+  annotate(
+    "text",
+    x = max(renamed_data$waiting_time, na.rm = TRUE) * 0.7,
+    y = max(renamed_data$minutes_late, na.rm = TRUE) * 0.9,
+    label = paste0(
+      "r = ",
+      round(
+        cor(
+          renamed_data$waiting_time,
+          renamed_data$minutes_late,
+          use = "complete.obs"
+        ),
+        2
+      )
+    )
+  ) +
   
-  scale_colour_manual(values = c(
-    "Bus"   = colours[4],
-    "Train" = colours[1],
-    "Ferry" = colours[2],
-    "Taxi"  = colours[5]
-  )) +
   
   labs(
     title = "Do longer waits lead to bigger delays?",
@@ -172,14 +259,19 @@ plot_scatter <- renamed_data %>%
     x = "Waiting time (minutes)",
     y = "Delay (minutes)",
     colour = "Transport type",
-    caption = "Source: Personal transport logging data"
+    caption = "Source: Public Transport Observation Survey"
   ) +
   
-  my_theme
+  theme_minimal()
 
 plot_scatter
 
-ggsave("plot_scatter.png", plot = plot_scatter, width = 8, height = 5)
+ggsave(
+  "plot_scatter.png",
+  plot = plot_scatter,
+  width = 8,
+  height = 5
+)
 
 
 ```
