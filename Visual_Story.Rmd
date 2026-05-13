@@ -1,0 +1,186 @@
+---
+title: "Visual Story about Public Transport"
+output: html_document
+---
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
+```
+
+```{js}
+$(function() {
+  $(".level2").css('visibility', 'hidden');
+  $(".level2").first().css('visibility', 'visible');
+  $(".container-fluid").height($(".container-fluid").height() + 300);
+  $(window).on('scroll', function() {
+    $('h2').each(function() {
+      var h2Top = $(this).offset().top - $(window).scrollTop();
+      var windowHeight = $(window).height();
+      if (h2Top >= 0 && h2Top <= windowHeight / 2) {
+        $(this).parent('div').css('visibility', 'visible');
+      } else if (h2Top > windowHeight / 2) {
+        $(this).parent('div').css('visibility', 'hidden');
+      }
+    });
+  });
+})
+```
+
+```{css}
+.figcaption {display: none}
+```
+
+
+``` {css}
+
+```{css, echo=FALSE}
+body {
+  background-color: #ffffff;
+  color: #222222;
+}
+
+h1, h2 {
+  color: #1b3a57;
+}
+```
+
+
+## Description of How my Data was collected
+
+My visual data story is based on a dataset collected through a short online survey focused on public transport experiences in Auckland. It has 44 observations in total. The survey was designed to capture how reliable public transport feels to everyday users, particularly in terms of punctuality, waiting time, and crowding.Responses were gathered by sharing a Google Form with participants around university campuses and through social media platforms. In addition to external responses, I also contributed my own journey data. Each participant recorded details from a recent trip, ensuring the information reflected real and relatively fresh experiences.Each observation in the dataset represents a single journey and includes both numerical and categorical variables. Numerical data includes waiting time before boarding and minutes late, while categorical responses capture transport type, time of day, day type (weekday or weekend), and perceived crowding levels.
+
+
+
+## Plot 1 - Bar graph showing which transport type is mostly used by Passengers.
+
+```{r}
+
+library(tidyverse)
+
+# Loading the CSV
+logged_data <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vTGzvxSKzI0bMIpnofOget2sOOiLVsmXXl5lZgbCBhONKjjPNXnhaq6biI7dJchORSju2JPfl1vzklB/pub?output=csv")
+
+
+# Renaming the original data for our data visualizations
+renamed_data <- logged_data %>%
+  rename(
+    transport_type = "What type of public transport do you use?",
+    day_type = "What day type was this journey?",
+    time_of_day = "What time of day was this journey?",
+    crowd_level = "How crowded was the transport?",
+    minutes_late = "How many minutes late was the transport? (Enter 0 if on time).",
+    additional_comments = "Additional Comments (E.g. Reasons for delay, whether any prior announcements given, type of inconvenience caused etc).",
+    waiting_time = "How many minutes did you wait before boarding? (Enter 0 if no waiting time)."
+    
+  )
+
+# Visualization 1 - Transport Type Distribution
+
+ggplot(renamed_data, aes(x = transport_type, fill = transport_type)) +
+  geom_bar() +
+  scale_fill_manual(values = c(
+    "Bus" = "red",
+    "Train" = "blue",
+    "Ferry" = "yellow",
+    "Taxi" = "green"
+  )) +
+  labs(
+    title = "Transport Type Distribution",
+    x = "Transport Type",
+    y = "Count"
+  ) +
+  theme_minimal()
+
+```
+
+The bar graph shows most people like to use transport.Most people prefer buses and trains over driving their cars. This is clear, from the graph which shows a number of people choosing public transport. Bus and Train are the popular choices. They make up most of the data. Are almost at the top of the graph. The Bus is used the with 20 people using it. The Train is second with 19 people using it. Bus and Train are more popular than the other options. This means people rely a lot on buses and trains. The Ferry and Taxi are not used much with 3 and 1 people using them. This shows that they are not as popular as buses and trains. They are alternatives, for some people.
+
+## Plot 2 - Bar plot showing crowd levels at different times of day
+
+```{r}
+
+colours <- c(
+  "#1b3a57",
+  "#7eb8f7",
+  "#a9d6e5",
+  "#ff7f50",
+  "#6a994e",
+  "#cdb4db"
+)
+
+my_theme <- theme_minimal()
+# Visualization 3 - Crowd Levels at different times of day
+ggplot(renamed_data,
+       aes(x = time_of_day,
+           fill = crowd_level)) +
+  
+  geom_bar(position = "dodge") +
+  
+  labs(
+    title = "Crowding Levels at Different Times of Day",
+    x = "Time of Day",
+    y = "Number of Journeys"
+  ) +
+  
+  theme_minimal()
+
+```
+
+
+My barplot shows that crowding is usually moderate at all times of day. This means that most of the time the journeys are not completely empty and not really crowded either. The crowding is more of a problem during peak periods in the evening. That is when the crowded conditions happen often. On the hand when it is not peak time the crowding is a bit less and the travel is more comfortable. My barplot clearly shows that crowding is moderate most of the time and the crowding is more of an issue during peak periods, in the evening when crowding is more common.
+
+
+
+
+## Plot 3 - Scatter Plot comparing waiting times with delays
+
+```{r}
+plot_scatter <- renamed_data %>%
+  ggplot(aes(x = waiting_time, y = minutes_late)) +
+  
+  # Points
+  geom_point(aes(colour = transport_type),
+             size = 3, alpha = 0.7) +
+  
+  # Regression line
+  geom_smooth(method = "lm",
+              colour = colours[1],
+              fill = colours[2]) +
+  
+  # Correlation annotation
+  annotate("text",
+           x = max(renamed_data$waiting_time, na.rm = TRUE) * 0.7,
+           y = max(renamed_data$minutes_late, na.rm = TRUE) * 0.9,
+           label = paste0("r = ",
+                          round(cor(renamed_data$waiting_time,
+                                    renamed_data$minutes_late,
+                                    use = "complete.obs"), 2))) +
+  
+  scale_colour_manual(values = c(
+    "Bus"   = colours[4],
+    "Train" = colours[1],
+    "Ferry" = colours[2],
+    "Taxi"  = colours[5]
+  )) +
+  
+  labs(
+    title = "Do longer waits lead to bigger delays?",
+    subtitle = "Waiting time vs delay, coloured by transport type",
+    x = "Waiting time (minutes)",
+    y = "Delay (minutes)",
+    colour = "Transport type",
+    caption = "Source: Personal transport logging data"
+  ) +
+  
+  my_theme
+
+plot_scatter
+
+ggsave("plot_scatter.png", plot = plot_scatter, width = 8, height = 5)
+
+
+```
+
+There is a strong link between how long you wait and how delayed the service is. This means that when you wait for a time the service is usually delayed for a long time too. It is not that simple because different types of transport have different things that affect how reliable they are. For example trains are usually the ones that are really delayed which is something that Auckland Transport has to deal with. On the hand ferries are usually, on time which shows that different types of transport are not equally reliable. Waiting time and delays are. This is especially true when you look at waiting time and delays together.
