@@ -35,10 +35,10 @@ $(function() {
 
 ``` {css}
 
-```{css, echo=FALSE}
 body {
   background-color: #ffeda0;
   color: #222222;
+  text-align: justify;
 }
 
 h1, h2 {
@@ -49,7 +49,7 @@ h1, h2 {
 
 ## Description of How my Data was collected
 
-My visual data story is based on a dataset collected through a short online survey focused on public transport experiences in Auckland. It has 43 observations in total. The survey was designed to capture how reliable public transport feels to everyday users, particularly in terms of punctuality, waiting time, and crowding.Responses were gathered by sharing a Google Form with participants around university campuses and through social media platforms. In addition to external responses, I also contributed my own journey data. Each participant recorded details from a recent trip, ensuring the information reflected real and relatively fresh experiences.Each observation in the dataset represents a single journey and includes both numerical and categorical variables. Numerical data includes waiting time before boarding and minutes late, while categorical responses capture transport type, time of day, day type (weekday or weekend), and perceived crowding levels.
+My visual data story is based on a dataset collected through a short online survey focused on public transport experiences in Auckland. It has 44 observations in total. The survey was designed to capture how reliable public transport feels to everyday users, particularly in terms of punctuality, waiting time, and crowding. Responses were gathered by sharing a Google Form with participants around university campuses and through social media platforms. In addition to external responses, I also contributed my own journey data. Each participant recorded details from a recent trip, ensuring the information reflected real and relatively fresh experiences. Each observation in the dataset represents a single journey and includes both numerical and categorical variables. Numerical data includes waiting time before boarding and minutes late, while categorical responses capture transport type, time of day, day type (weekday or weekend), and perceived crowding levels.
 
 
 
@@ -104,7 +104,8 @@ plot_transport <- ggplot(
   labs(
     title = "Transport Type Distribution",
     x = "Transport Type",
-    y = "Count"
+    y = "Count",
+     caption = "Source: Public Transport Observation Survey"
   ) +
   
   theme_minimal()
@@ -120,7 +121,7 @@ ggsave(
 
 ```
 
-The bar graph shows most people like to use transport.Most people prefer buses and trains over driving their cars. This is clear, from the graph which shows a number of people choosing public transport. Bus and Train are the popular choices. They make up most of the data. Are almost at the top of the graph. The Bus is first with more than 20 people using it. The Train is second with 18 people using it. Bus and Train are more popular than the other options. This means people rely a lot on buses and trains. The Ferry and Taxi are not used much with 3 and 1 people using them. This shows that they are not as popular as buses and trains. They are alternatives, for some people.
+The bar graph shows most people like to use transport. Most people prefer buses and trains over driving their cars. This is clear, from the graph which shows a number of people choosing public transport. Bus and Train are the popular choices. They make up most of the data. Are almost at the top of the graph. The Bus is first with more than 20 people using it. The Train is second with 18 people using it. Bus and Train are more popular than the other options. This means people rely a lot on buses and trains. The Ferry and Taxi are not used much with 3 and 1 people using them. This shows that they are not as popular as buses and trains. They are alternatives, for some people.
 
 ## Plot 2 - Bar plot showing crowd levels at different times of day
 
@@ -149,10 +150,31 @@ renamed_data <- renamed_data %>%
     )
   )
 
-# STRINGR FUNCTION (cleaning labels for consistency)
+# STRINGR FUNCTIONS
 renamed_data <- renamed_data %>%
   mutate(
-    time_of_day = str_to_title(time_of_day)
+    
+    # Making labels consistent
+    time_of_day = str_to_title(time_of_day),
+    
+    # Detecting comments mentioning delays
+    mentions_delay = str_detect(
+      additional_comments,
+      "delay|late|wait"
+    ),
+    
+    # Counting number of words in comments
+    comment_word_count = str_count(
+      additional_comments,
+      "\\S+"
+    ),
+    
+    # Extracting first 15 characters of comments
+    short_comment = str_sub(
+      additional_comments,
+      1,
+      15
+    )
   )
 
 # Custom colour palette
@@ -192,12 +214,11 @@ ggsave(
   width = 8,
   height = 5
 )
-
 ```
 
 
 
-My barplot shows that crowding is usually moderate at all times of day. This means that most of the time the journeys are not completely empty and not really crowded either. The crowding is more of a problem during peak periods in the evening. That is when the crowded conditions happen often. On the hand when it is not peak time the crowding is a bit less and the travel is more comfortable. My barplot clearly shows that crowding is moderate most of the time and the crowding is more of an issue during peak periods, in the evening when crowding is more common.
+My bar plot shows that moderate crowding levels are the most common across all times of day. The evening journeys have a lot of people on them. They are really crowded, this is when most people are going home from work. They are more crowded than the morning or afternoon journeys. On the other hand, the night journeys do not have as many people and they are not as crowded. So when you use transport in Auckland it is usually quite busy but it gets even more crowded, in the evenings when everyone is going home.
 
 
 
@@ -280,6 +301,7 @@ There is a strong link between how long you wait and how delayed the service is.
 
 
 
+
 ## Conclusion
 
-The public transport type distribution shows what people use the most. This shows that people in Auckland really rely on public transport services. I checked how busy it gets at times of the day. So it gets really crowded during rush hour. This means that the bus or train is not as comfortable or reliable, during rush hour. I also saw that when people have to wait for a time they are more likely to be late. So my visualisations of Auckland's transport show that peak-time congestion and waiting times are big problems.These problems affect how reliable the public transport is. This can make the experience of using public transport in Auckland not very good, for people who use it. Auckland's public transport reliability is what is affected by these problems.
+The public transport type distribution shows what people use the most. This shows that people in Auckland really rely on public transport services. I checked how busy it gets at times of the day. So it gets really crowded during rush hour. This means that the bus or train is not as comfortable or reliable, during rush hour. I also saw that when people have to wait for a time they are more likely to be late. The visualisations show that crowding is more common during busy travel periods, while longer waiting times are associated with larger delays. These problems affect how reliable the public transport is. This can make the experience of using public transport in Auckland not very good, for people who use it. Auckland's public transport reliability is what is affected by these problems.
